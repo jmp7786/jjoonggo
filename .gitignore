@@ -1,0 +1,23 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+node_modules/
+ssh.sh
+public/lib/
+
+=======
+#idea
+.idea/
+
+.idea/workspace.xml
+*.iml
+
+*.zip
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+dist/
