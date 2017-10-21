@@ -1,41 +1,20 @@
+'use strict'
 var request = require("request");
 var cheerio = require("cheerio");
 var Iconv = require('iconv').Iconv;
 var iconv = new Iconv('euc-kr', 'utf-8//translit//ignore');
+var bluebird = require('bluebird');
 // var MongoClient = require('mongodb').MongoClient;
-var MongoUrl = "mongodb://localhost:27017/mydb";
 var WatchArticleUrl = "cafe.naver.com/ArticleRead.nhn?clubid=10050146&page=1&menuid=1011&boardtype=L&articleid=???&referrerAllArticles=false"
-
-var mongoose = require('mongoose');
-var db = mongoose.connection;
-db.on('error', console.error);
-db.once('open', function(){
-	// CONNECTED TO MONGODB SERVER
-	console.log("Connected to mongod server");
-});
-
-mongoose.connect(MongoUrl);
-
-var Schema = mongoose.Schema;
-
-var articleSchema = new Schema({
-	article_count: Number,
-	article_title: String,
-	article_writer: String,
-	article_body : String
-});
-
-var Article = mongoose.model('Article', articleSchema);
-// module.exports = mongoose.model('Article', articleSchema);
-
-
-
+var db = require("../config/mongooseDb");
+var Article = db.Article;
 
 var options = {
 	//[명품]시계 카테고리
 	url: "http://cafe.naver.com/ArticleList.nhn?search.clubid=10050146&search.menuid=1011&search.boardtype=L&search.clubid=10050146",
 	encoding: null
 };
+
 var watchArticleOptions = {
 	//[명품]시계 카테고리
 	url: "http://cafe.naver.com/ArticleRead.nhn?clubid=10050146&page=1&menuid=1011&boardtype=L&articleid=???&referrerAllArticles=false",
@@ -45,20 +24,14 @@ var watchArticleOptions = {
 function insertArticles(){
 	(function() {
 		return new Promise(function(resolve, reject) {
-
-
-
-
 			getLastArticle().then(function (r) {
-				console.log("1");
-				console.log("1");
-				var lastArticleCount = r[0].article_count || 0;
+				var lastArticleCount = r[0] && r[0].article_count || 1;
+				console.log(lastArticleCount);
 
 				request.get(options, function (error, response, body) {
 					var data = iconv.convert(body).toString();
 					// console.log(data);
 					var $ = cheerio.load(data);
-
 
 					// var postElements = $("#main-area > div:nth-child(8) > form > table > tbody > tr:nth-child(3) > td.board-list")
 					// var list_count = $("#main-area tr span.list-count")
@@ -104,7 +77,7 @@ function insertArticles(){
 		console.log(r.length);
 		// console.log(r);
 		var count = 0;
-		_watchArticleOptions =   watchArticleOptions;
+		var _watchArticleOptions =   watchArticleOptions;
 		var tmpArr = [];
 		r.forEach(function (article,i,arr) {
 
@@ -150,17 +123,27 @@ function insertArticles(){
 function getLastArticle (){
 	return Article.find().sort({article_count:-1}).limit(1)
 }
+
 function checkArticleList (){
+	
 	Article.find(function (e,r) {
 		if(e) throw new Error()
 		console.log(r);
+		console.log(r.length);
 	} )
+}
+
+function removeAll () {
+	Article.remove({});
+}
+
+function remove (option) {
+	Article.remove({option});
 }
 
 module.exports = {
 	insertArticles: insertArticles,
-	checkArticleList : checkArticleList
+	checkArticleList : checkArticleList,
+	remove :remove,
+	removeAll :removeAll
 }
-
-
-
