@@ -4,6 +4,8 @@ var cheerio = require("cheerio");
 var Iconv = require('iconv').Iconv;
 var iconv = new Iconv('euc-kr', 'utf-8//translit//ignore');
 var bluebird = require('bluebird');
+var RegsModule = require("../modules/regExgs.module");
+
 // var MongoClient = require('mongodb').MongoClient;
 var WatchArticleUrl = "cafe.naver.com/ArticleRead.nhn?clubid=10050146&page=1&menuid=1011&boardtype=L&articleid=???&referrerAllArticles=false"
 var db = require("../config/mongooseDb");
@@ -125,7 +127,6 @@ function getLastArticle (){
 }
 
 function checkArticleList (){
-	
 	Article.find(function (e,r) {
 		if(e) throw new Error()
 		console.log(r);
@@ -145,5 +146,13 @@ module.exports = {
 	insertArticles: insertArticles,
 	checkArticleList : checkArticleList,
 	remove :remove,
-	removeAll :removeAll
+	removeAll :removeAll,
 }
+
+var fs = require("fs")
+var tmp = fs.readFileSync('../../htmlSource.txt',"utf-8");
+
+console.log(tmp);
+
+var tmp2 = RegsModule.removeHtml(tmp)
+console.log(tmp2);

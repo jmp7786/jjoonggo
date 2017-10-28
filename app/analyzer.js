@@ -12,6 +12,7 @@ var crawlerCtl = require("./controller/crawler.controller");
 // 	console.log(e.Article);
 // })
 console.log("crawlerCtl.checkArticleList()",crawlerCtl.checkArticleList());
+
 //
 // crawlerCtl.insertArticles();
 	// console.log(e);
