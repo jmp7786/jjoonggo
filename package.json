@@ -1,0 +1,32 @@
+{
+  "name": "pakage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.141.0",
+    "cheerio": "^0.19.0",
+    "fs-tools": "^0.3.0",
+    "iconv": "^2.3.0",
+    "jmcli": "^0.0.20004",
+    "jmlds": "^0.0.11",
+    "jmtoolkit": "^0.0.1",
+    "livereload": "^0.6.0",
+    "longjohn": "^0.2.12",
+    "mongodb": "^2.2.31",
+    "mongoose": "^4.11.13",
+    "moongoose": "^0.0.5",
+    "node-gyp": "^3.6.2",
+    "nodemailer": "^3.0.2",
+    "request": "^2.82.0",
+    "request-promise": "^4.1.1",
+    "socket.io": "^1.7.2",
+    "time": "^0.12.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

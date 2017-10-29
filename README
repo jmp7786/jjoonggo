@@ -1,24 +1,55 @@
 
 
-mongoDB를 켜시고 하시면 데이터가 마이그레이션 됩니다.
-mongorestore ./jjongoDump
+source file
 
-article.js
-        중고나라의 글을 긁어오는 모듈입니다.
-    함수
-        insertArticle
-            중고나라에 시계 카테고리의 리스트와 그 안에 데이터들을 긁어옵니다.
-            DB의 존재하는 최신의 글 이후의 글만을 긁어오도록 세팅해놨습니다.
+    article.js
+            중고나라의 글을 긁어오는 모듈입니다.
+        함수
+            insertArticle
+                중고나라에 시계 카테고리의 리스트와 그 안에 데이터들을 긁어옵니다.
+                DB의 존재하는 최신의 글 이후의 글만을 긁어오도록 세팅해놨습니다.
 
-        checkArticleList
-            긁어온 데이터를 확인 할 수 있습니다.
-
-
-main.js
-        모듈을 사용하는 main 함수입니다.
+            checkArticleList
+                긁어온 데이터를 확인 할 수 있습니다.
 
 
+    main.js
+            모듈을 사용하는 main 함수입니다.
+----------------------------------------------------------------------
+mongoDB
+    mongoDB를 켜시고 하시면 데이터가 마이그레이션 됩니다.
+    mongorestore ./jjongoDump
+----------------------------------------------------------------------
+mecab-ffi
+    mecab-ffi 를 설치하기 전에 아래 링크에서 mecab 라이브러리와 한국어 사전의 최신버전을 다운받아 압축을 풀어야 합니다
+    – https://bitbucket.org/eunjeon/mecab-ko/downloads
+    – https://bitbucket.org/eunjeon/mecab-ko-dic/downloads
 
+    $ wget https://bitbucket.org/eunjeon/mecab-ko/downloads/mecab-0.996-ko-0.9.2.tar.gz
+    $ wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.0.1-20150920.tar.gz
+    $ tar xvf mecab*.tar
 
+    mecab-ko build
+
+    $ cd mecab-[version]
+    $ ./configure
+    $ make
+    $ make install
+
+    mecab-ko-dic build
+
+    $ cd mecab-ko-dic-[version]
+    $ ./autogen.sh
+    $ ./configure
+    $ make
+    $ make install
+
+    mecab-ffi
+
+    $ npm install mecab-ffi
+----------------------------------------------------------------------
+sampleText.txt
+    텍스트 마이닝에 필요한 텍스트 파일입니다. 해당 파일로 텍스트 마이닝 연습하실 수 있습니다.
+----------------------------------------------------------------------
 
 
