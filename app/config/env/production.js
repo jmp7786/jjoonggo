@@ -24,7 +24,8 @@ module.exports = {
 		ses: {
 			sender: 'foodtruck@treecoo.com',
 			region: 'us-east-1'
-		}
+		},
+		profile : "jjonggo"
 	},
 	iamport: {
 		endPoint: 'https://api.iamport.kr',

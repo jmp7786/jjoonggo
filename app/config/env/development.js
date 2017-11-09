@@ -30,7 +30,10 @@ module.exports = {
 		ses: {
 			sender: 'foodtruck@treecoo.com',
 			region: 'us-east-1'
-		}
+		},
+		profile : "jjonggo",
+		endpoint: "https://dynamodb.ap-northeast-2.amazonaws.com"
+
 	},
 	iamport: {
 		endPoint: 'https://api.iamport.kr',

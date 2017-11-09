@@ -1,13 +1,4 @@
-var AWS = require("aws-sdk");
-var credentials = new AWS.SharedIniFileCredentials({profile: 'jjonggo'});
-AWS.config.credentials = credentials;
-
-AWS.config.update({
-	region: "ap-northeast-2",
-	// endpoint: "http://localhost:8000"
-	// endpoint: "https://dynamodb.us-west-2.amazonaws.com"
-	endpoint: "https://dynamodb.ap-northeast-2.amazonaws.com"
-});
+var AWS = require("../config/aws");
 
 var dynamodb = new AWS.DynamoDB();
 

@@ -30,5 +30,8 @@ module.exports = {
 		sendPhone: '',
 		clientKey: 'NDY2Ny0xNDY2MDY4MjI5NDg0LTI4NGY1NTc5LWJkMmEtNDU1OS04ZjU1LTc5YmQyYTI1NTk',
 		cliendId: 'treecoo'
+	},
+	aws:{
+		
 	}
 };

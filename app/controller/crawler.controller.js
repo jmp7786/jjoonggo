@@ -3,13 +3,13 @@ var request = require("request");
 var cheerio = require("cheerio");
 var Iconv = require('iconv').Iconv;
 var iconv = new Iconv('euc-kr', 'utf-8//translit//ignore');
-var bluebird = require('bluebird');
+var Promise = require('bluebird');
 var RegsModule = require("../modules/regExgs.module");
 
 // var MongoClient = require('mongodb').MongoClient;
 var WatchArticleUrl = "cafe.naver.com/ArticleRead.nhn?clubid=10050146&page=1&menuid=1011&boardtype=L&articleid=???&referrerAllArticles=false"
-var db = require("../config/mongooseDb");
-var Article = db.Article;
+var db = require("../modules/dynamoDB.module");
+// var Article = db.Article;
 
 var options = {
 	//[명품]시계 카테고리
@@ -27,7 +27,9 @@ function insertArticles(){
 	(function() {
 		return new Promise(function(resolve, reject) {
 			getLastArticle().then(function (r) {
-				var lastArticleCount = r[0] && r[0].article_count || 1;
+				// console.log(r[0]);
+				console.log(r[0].get("count"));
+				var lastArticleCount = r[0] && r[0].get("count") || 1;
 				console.log(lastArticleCount);
 
 				request.get(options, function (error, response, body) {
@@ -100,18 +102,24 @@ function insertArticles(){
 				console.log(_option);
 				// console.log(data);
 				// console.log(data);
-				var _article = new Article({
-					article_count: article.article_count,
-					article_title: article.article_title,
-					article_writer: article.article_writer,
-					article_body : data
+
+				var _article = new db.article({
+					count: article.article_count,
+					title: article.article_title,
+					writer: article.article_writer,
+					body : data
 				});
 
 				// article.article_body = data;
 
 				_article.save(function(err, r){
-					if(err)  console.error(err);
-					console.log(r);
+					if(err)  {
+						console.error(err);
+					}
+					else {
+						console.log(r);
+					}
+
 				})
 			})
 
@@ -123,7 +131,49 @@ function insertArticles(){
 
 
 function getLastArticle (){
-	return Article.find().sort({article_count:-1}).limit(1)
+	// var params = {
+	// 	TableName: table,
+	// 	Key:{
+	// 		"year": year,
+	// 		"title": title
+	// 	}
+	// };
+
+	// var x = db.article.get({Key:{title:"jmp",count:"11"}}, function (r) {
+	// 	console.log(r);
+	// } );
+
+	return new Promise(function(resolve, reject) {
+
+
+		db.article.scan()
+			.loadAll()
+			.limit(1)
+			.exec(function (e,r) {
+				// console.log(e);
+				// console.log(r);
+				if(e) {
+					reject(e)
+				} else {
+					resolve(r.Items);
+				}
+			} );
+	}).catch(function(e){
+		console.error(e);
+	}) ;
+
+
+
+
+
+
+	// db.article.get = Promise.promisify(db.article.get)
+	// var tmp =   db.article.get({title:"jmp"}).then( function (r) {
+	// 	console.log(r);
+	// } )
+	// console.log(tmp);
+
+	// return Article.find().sort({article_count:-1}).limit(1)
 }
 
 function checkArticleList (){
@@ -152,7 +202,18 @@ module.exports = {
 var fs = require("fs")
 var tmp = fs.readFileSync('../../htmlSource.txt',"utf-8");
 
-console.log(tmp);
+// console.log(tmp);
 
-var tmp2 = RegsModule.removeHtml(tmp)
-console.log(tmp2);
+// var tmp2 = RegsModule.removeHtml(tmp)
+// console.log(tmp2);
+
+// getLastArticle();
+// insertArticles();
+// getLastArticle();
+insertArticles();
+//http 서버 요청
+//가져온 데이터를 사용할 수 있도록 변환
+//변환된 데이터를 css 셀렉터를 통해서 돔객체의 필요한 정보를 가져옴
+//가져온 정보를 배열에 담아서 호출한 상위 함수에 반환해 줌
+
+
