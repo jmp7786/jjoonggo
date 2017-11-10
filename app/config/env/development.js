@@ -31,7 +31,8 @@ module.exports = {
 			sender: 'foodtruck@treecoo.com',
 			region: 'us-east-1'
 		},
-		profile : "jjonggo",
+		// profile : "jjonggo",
+		profile : "jjonggo_read_only",
 		endpoint: "https://dynamodb.ap-northeast-2.amazonaws.com"
 
 	},

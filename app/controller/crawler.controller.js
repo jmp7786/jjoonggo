@@ -209,8 +209,11 @@ var tmp = fs.readFileSync('../../htmlSource.txt',"utf-8");
 
 // getLastArticle();
 // insertArticles();
-// getLastArticle();
-insertArticles();
+getLastArticle().then( function (r) {
+	console.log(r);
+} )
+// insertArticles();
+
 //http 서버 요청
 //가져온 데이터를 사용할 수 있도록 변환
 //변환된 데이터를 css 셀렉터를 통해서 돔객체의 필요한 정보를 가져옴
